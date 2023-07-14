@@ -1,4 +1,4 @@
-import { MindTheGap } from '@/app/components/mindTheGap/mindTheGap.component'
+import MindTheGap from '@/app/components/mindTheGap/mindTheGap.component'
 import React, { useState } from 'react'
 import { handleGetQuestions } from './handle-get-questions'
 import { iExercises } from '@/types/exercises.types';

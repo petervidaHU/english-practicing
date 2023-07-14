@@ -8,7 +8,7 @@ interface mindTheGapProps {
   exercises: iExercises,
 }
 
-export const MindTheGap: React.FC<mindTheGapProps> = ({ exercises: { questions, answers } }) => {
+const MindTheGap: React.FC<mindTheGapProps> = ({ exercises: { questions, answers } }) => {
   const [selectedAnswers, setSelectedAnswers] = useState<{ value: string, result: boolean }[]>([]);
 
   useEffect(() => {
@@ -84,3 +84,5 @@ export const MindTheGap: React.FC<mindTheGapProps> = ({ exercises: { questions, 
     </>
   );
 };
+
+export default MindTheGap;
