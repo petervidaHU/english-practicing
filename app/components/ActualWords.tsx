@@ -3,6 +3,7 @@ import { anchorsOfTheWorld } from '@/types/commonTypes'
 import { iExercisePart } from '@/types/exercises.types'
 import { Card, Paper, Typography } from '@mui/material'
 import { GetWordDefinition } from '../functions/get-word-definition';
+import WordDefinition from './WordDefinition';
 
 interface ActualWordsType {
   words: iExercisePart[]
@@ -52,16 +53,7 @@ const ActualWords: React.FC<ActualWordsType> = ({ words }) => {
               onClick={() => handleGetDefinition(word.text)}
             >
               {word.text}
-              {defs[word.text] && defs[word.text].length > 0 && defs[word.text].map((def, index) => (
-                <div key={index}>
-                  as a <strong>{def.partOfSpeech}</strong>
-                  {def.definitions.map((d: { definition: string }) => (
-                    <p key={d.definition}>
-                      {d.definition}
-                    </p>
-                  ))}
-                </div>
-              ))}
+              <WordDefinition word={word.text} defs={defs}/>
             </Card>
           ))
         }
