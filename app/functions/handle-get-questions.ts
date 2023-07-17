@@ -1,6 +1,7 @@
 import axios from "axios";
-import { iExercises } from '@/types/exercises.types';
+import { QaA, iExercises } from '@/types/exercises.types';
 import { v4 as uuidv4 } from 'uuid';
+import { EnglishLevels } from '@/types/commonTypes';
 
 function shuffleArray<T>(array: T[]): T[] {
   for (let i = array.length - 1; i > 0; i--) {
@@ -10,14 +11,18 @@ function shuffleArray<T>(array: T[]): T[] {
   return array;
 }
 
-export const handleGetQuestions = async (): Promise<typeof errorResp | iExercises> => {
+export const handleGetQuestions = async (selectedLevel: EnglishLevels): Promise<typeof errorResp | iExercises> => {
   const endpoint = '/api/get-questions/get'
   const errorResp = 'error';
   let res: iExercises | undefined;
   let temp: {data: string};
 
   try {
-    const response = await axios(endpoint);
+    const response = await axios.get(endpoint, {
+      params: {
+        level: selectedLevel,
+      }
+    });
     temp = await response.data;
 
   } catch (e) {
@@ -28,9 +33,9 @@ export const handleGetQuestions = async (): Promise<typeof errorResp | iExercise
   const input = temp.data.trim();
   if (input) {
     res = input
-      .split('QUESTION:')
+      .split(QaA.question)
       .map((fullTask) => fullTask
-        .split('ANSWER:')
+        .split(QaA.answer)
         .map(separatedTaskPart => separatedTaskPart
           .trim()
           .replace(/\n/g, '')))
@@ -45,6 +50,11 @@ export const handleGetQuestions = async (): Promise<typeof errorResp | iExercise
       });
 
       res.questions = shuffleArray(res.questions);
+      res.questions = res.questions.map(question => {
+        question.text.replace(/_+/g, '___');
+        return question;
+      }) 
+
       res.answers = res.answers.map(answer => ({
         ...answer,
         text: answer.text.replace(/[\.,;]$/g, '')

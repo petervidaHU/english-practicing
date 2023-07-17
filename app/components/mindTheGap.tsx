@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { iExercises } from '@/types/exercises.types';
-import { FormControl, InputLabel, MenuItem, Paper, Select, Typography } from '@mui/material';
+import { iExercisePart, iExercises } from '@/types/exercises.types';
+import { Button, FormControl, InputLabel, MenuItem, Paper, Select, Typography } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
+import ActualWords from './ActualWords';
+import { explainThis } from '../functions/explainThisShit';
+import { EnglishLevels } from '@/types/commonTypes';
 
 interface mindTheGapProps {
   exercises: iExercises,
+  level: EnglishLevels,
+  expHandler: any,
 }
 
-const MindTheGap: React.FC<mindTheGapProps> = ({ exercises: { questions, answers } }) => {
+const MindTheGap: React.FC<mindTheGapProps> = ({ level, expHandler, exercises: { questions, answers } }) => {
   const [selectedAnswers, setSelectedAnswers] = useState<{ value: string, result: boolean }[]>([]);
 
   useEffect(() => {
-   setSelectedAnswers([]);   
+    setSelectedAnswers([]);
   }, [questions])
-  
+
 
   const handleAnswerChange = (index: number, qId: string, event: any) => {
     const newSelectedAnswers = [...selectedAnswers];
@@ -74,13 +79,28 @@ const MindTheGap: React.FC<mindTheGapProps> = ({ exercises: { questions, answers
               ))}
             </Select>
           </FormControl>
+
+          {selectedAnswers[index]?.result &&
+            (<Button
+              onClick={async () => expHandler(selectedAnswers[index].value, index)}
+            >
+              Explain this
+            </Button>
+            )}
+
         </Paper>
       ))}
+
       {selectedAnswers.length === questions.length
         && selectedAnswers.every(r => r?.result) && (
           <Typography variant="h3">
             - = w ü n d e r f u l = -
-          </Typography>)}
+          </Typography>
+        )}
+
+      <ActualWords
+        words={answers}
+      />
     </>
   );
 };
