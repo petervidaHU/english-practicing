@@ -4,7 +4,7 @@ import { Button, FormControl, InputLabel, MenuItem, Paper, Select, Typography } 
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ActualWords from './ActualWords';
-import { explainThis } from '../functions/explainThisShit';
+import { explainThis } from '../functions/explain-this';
 import { EnglishLevels } from '@/types/commonTypes';
 
 interface mindTheGapProps {
