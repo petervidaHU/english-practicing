@@ -30,8 +30,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     await connectToDB();
     const collection = getCollection();
-    const dbresult: InsertOneResult = await collection.insertOne({ teszt: 'inserted' });
-    console.log('insert one: ', dbresult);
+    // const dbresult: InsertOneResult = await collection.insertOne({ teszt: 'inserted' });
+    // console.log('insert one: ', dbresult);
   } catch (error) {
     console.log('error in DATABASE', error);
   }
